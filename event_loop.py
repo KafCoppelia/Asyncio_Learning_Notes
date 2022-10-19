@@ -1,5 +1,5 @@
 import collections
-from random import random
+import random
 import time
 import heapq
 import itertools
@@ -39,7 +39,7 @@ class Evenloop:
             cb(*args)
     
 class Awaitable:
-    def __init__(self, obj) -> None:
+    def __init__(self, obj):
         self.value = obj
         
     def __await__(self):
@@ -50,7 +50,7 @@ loop = Evenloop()
 task_id = itertools.count(1)
         
 class Task:
-    def __init__(self, coro) -> None:
+    def __init__(self, coro):
         self.coro = coro
         self._done = False
         self._result = None
@@ -74,8 +74,10 @@ class Task:
     
 async def small_task():
     t1 = time.time()
-    sleep = random()
-    await Awaitable(sleep) 
+    sleep_time = random.random()
+    await Awaitable(sleep_time)
+    assert time.time() - t1 > sleep_time, "Sleep time is not enough!"
+    return sleep_time
 
 if __name__ == "__main__": 
     for i in range(10):
